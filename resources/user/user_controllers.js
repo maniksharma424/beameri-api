@@ -7,17 +7,17 @@ import { randomPasswordGenerator } from "../../util/passwordGenerator.js";
 import { sendOTPEmail } from "../../util/sendBlue.js";
 import bcrypt from "bcrypt";
 import { generateUniqueUserName } from "../../util/auth.js";
+import Audio from "../audio/audio_model.js";
+import Avatar from "../avatar/avatar_model.js";
 
 class UserController {
   // update user
   static async updateUser(req, res) {
     try {
       const { userId } = req.params;
-      const user = await User.findOneAndUpdate(
-        { _id: userId },
-        req.body,
-        { new: true }
-      );
+      const user = await User.findOneAndUpdate({ _id: userId }, req.body, {
+        new: true,
+      });
       if (!user) {
         return res.status(404).json({
           status: "failed",
@@ -74,6 +74,9 @@ class UserController {
       const articles = await Article.find();
       const members = await Member.find();
       const exercises = await Exercise.find();
+      const voices = await Audio.find();
+      const avatar = await Avatar.find();
+
       return res.status(200).json({
         status: "success",
         message: "Dashboard data found",
@@ -83,9 +86,10 @@ class UserController {
           articleCount: articles.length,
           memberCount: members.length,
           exerciseCount: exercises.length,
+          voiceCount: voices.length,
+          avatarCount: avatar.length,
         },
       });
-
     } catch (err) {
       return res.status(500).json({
         status: "failed",
@@ -98,17 +102,17 @@ class UserController {
   static createUserByAdmin = async (req, res) => {
     try {
       var userData = req.body;
-    if (!userData.email) {
-      return res.status(401).send({
-        message: "Required fields missing",
-      });
-    }
+      if (!userData.email) {
+        return res.status(401).send({
+          message: "Required fields missing",
+        });
+      }
 
-    const checkUser = await User.findOne({ email: userData.email });
-    if (checkUser)
-      return res
-        .status(401)
-        .send({ status: "failed", message: "Email is already in use" });
+      const checkUser = await User.findOne({ email: userData.email });
+      if (checkUser)
+        return res
+          .status(401)
+          .send({ status: "failed", message: "Email is already in use" });
 
       userData["username"] = await generateUniqueUserName(
         `${userData.firstName.toLowerCase()}.${userData.lastName.toLowerCase()}`,
@@ -173,13 +177,9 @@ class UserController {
     <p>The Gold Gym Team</p>
   </body>
 </html>
-`
+`;
 
-      const isSent = await sendOTPEmail(
-        userData.email,
-        mailData,
-        false
-      );
+      const isSent = await sendOTPEmail(userData.email, mailData, false);
       if (!isSent) {
         return res.status(404).send({
           status: "failed",

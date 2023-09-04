@@ -16,6 +16,21 @@ const BranchSchema = new Schema(
     qrCode: {
       type: String,
     },
+    name: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    contact: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
   },
   {
     strict: false,

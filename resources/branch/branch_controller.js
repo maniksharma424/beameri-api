@@ -99,13 +99,9 @@ class BranchController {
     <p>The Gold Gym Team</p>
   </body>
 </html>
-`
+`;
 
-      const isSent = await sendOTPEmail(
-        branchManager.email,
-        mailData,
-        false
-      );
+      const isSent = await sendOTPEmail(branchManager.email, mailData, false);
       if (!isSent) {
         return res.status(404).send({
           status: "failed",
@@ -178,9 +174,9 @@ class BranchController {
           .json({ status: "failed", message: "Branch not found" });
       }
 
-      branch.name = name;
-
-      const updatedBranch = await branch.save();
+      const updatedBranch = await Branch.findByIdAndUpdate(branchId, req.body, {
+        new: true,
+      });
 
       return res.status(200).json({
         message: "Branch updated successfully",
