@@ -40,7 +40,7 @@ class BranchController {
       // const branch = new Branch(req.body.branchData);
       // const savedBranch = await branch.save();
       var savedBranch = await Branch.create(branchData);
-      const url = "https://branch-ai-avatar-j9qn.vercel.app/chat";
+      const url = "https://branch.neuralsage.ai/branch-chat";
       if (!savedBranch) {
         return res.status(400).json({
           status: "failed",

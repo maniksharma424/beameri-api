@@ -20,9 +20,7 @@ class MemberController {
         message: "Member added successfully",
       });
     } catch (e) {
-      return res
-        .status(500)
-        .send({ status: "failed", message: "Internal server error" });
+      return res.status(500).send({ status: "failed", message: e.message });
     }
   };
 

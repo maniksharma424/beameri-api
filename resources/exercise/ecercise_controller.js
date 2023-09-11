@@ -5,6 +5,7 @@ class ExerciseController {
   static async getExercise(req, res) {
     try {
       const exercise = await Exercise.find();
+
       res.status(200).json({
         status: "success",
         data: exercise,

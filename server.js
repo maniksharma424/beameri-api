@@ -2,6 +2,7 @@
 import express, { urlencoded, json } from "express";
 import cors from "cors";
 import fileUpload from "express-fileupload";
+import device from "express-device";
 
 // module
 import path from "path";
@@ -25,6 +26,7 @@ import { chatGptResponse } from "./resources/ml_functionality/gpt_controller.js"
 import avatarRouter from "./resources/avatar/avatar_router.js";
 import audioRouter from "./resources/audio/audio_router.js";
 import elevenlabsRouter from "./resources/eleven_labs/eleven_labs_router.js";
+import conversationRouter from "./resources/conversation/conversation_router.js";
 import fs from "fs";
 
 import cloudinary from "cloudinary";
@@ -42,6 +44,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(device.capture());
 
 const PORT = process.env.PORT || 8000;
 export const userModel = (req, res, next) => {
@@ -79,6 +82,9 @@ app.use("/api/audio", audioRouter);
 app.use("/api/elevenlabs", elevenlabsRouter);
 // user routes
 app.use("/user", userModel, userRouter);
+
+// for conversation routes
+app.use("/api/conversation", conversationRouter);
 
 app.get("/", (req, res) => {
   res.json("Server is Running ");
