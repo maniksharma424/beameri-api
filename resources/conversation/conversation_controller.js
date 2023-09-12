@@ -15,6 +15,7 @@ class ConversationController {
           question: req.body.question,
           answer: "",
         },
+        branch: req.body.branchName,
       });
 
       // check device

@@ -14,6 +14,9 @@ const ConversationSchema = new Schema(
     source: {
       type: String,
     },
+    branch: {
+      type: String,
+    },
   },
   {
     strict: false,
