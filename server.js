@@ -199,6 +199,7 @@ app.post("/elevenlabs/text-to-speak", async (req, res) => {
     res.status(500).json({
       status: "failed",
       data: e.message,
+      
     });
   }
 });
