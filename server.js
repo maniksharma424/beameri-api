@@ -212,7 +212,7 @@ export const start = async () => {
       // if (SECRETS.node_env === "development") {
       //   expressListRoutes(app);
       // }
-      console.log(`REST API on http://localhost:${PORT}/`);
+      console.log(`server is running on port ${PORT}`);
     });
   } catch (e) {
     console.error(e);
